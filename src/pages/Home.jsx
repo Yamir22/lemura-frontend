@@ -8,7 +8,7 @@ function Home() {
     const [error, setError] = useState(null)
 
     useEffect(() => {
-        fetch("http://localhost:3000/arreglos")
+        fetch(`${import.meta.env.VITE_API_URL}/arreglos`)
             .then(res => {
                 if (!res.ok) throw new Error("No se pudo conectar con el servidor")
                 return res.json()

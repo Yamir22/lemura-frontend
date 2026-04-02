@@ -12,7 +12,7 @@ function ArmaTuArreglo() {
 
     // Al montar la página, traemos las flores desde el backend
     useEffect(() => {
-        fetch("http://localhost:3000/flores")
+        fetch(`${import.meta.env.VITE_API_URL}/flores`)
             .then(res => {
                 if (!res.ok) throw new Error("No se pudo conectar con el servidor")
                 return res.json()
