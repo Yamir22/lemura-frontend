@@ -1,0 +1,43 @@
+.home {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 24px 60px;
+}
+
+.home__hero {
+    text-align: center;
+    margin-bottom: 48px;
+}
+
+.home__titulo {
+    font-family: var(--serif);
+    font-size: 2.2rem;
+    color: var(--primario);
+    margin-bottom: 10px;
+}
+
+.home__subtitulo {
+    font-size: 1rem;
+    color: var(--texto);
+    opacity: 0.75;
+    font-style: italic;
+}
+
+.home__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 28px;
+}
+
+.home__estado {
+    text-align: center;
+    color: var(--texto);
+    opacity: 0.7;
+    font-size: 1rem;
+    margin: 40px 0;
+}
+
+.home__estado--error {
+    color: #c0392b;
+    opacity: 1;
+}

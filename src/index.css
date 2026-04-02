@@ -1,0 +1,28 @@
+/* ── Paleta Lemura ────────────────────────────── */
+:root {
+  --primario:  #7B6EA6;
+  --fondo:     #F9F4EF;
+  --acento:    #B8A9D4;
+  --texto:     #3D3552;
+  --blanco:    #ffffff;
+  --sombra:    0 4px 18px rgba(123, 110, 166, 0.15);
+  --radio:     12px;
+
+  --sans:    'Segoe UI', system-ui, sans-serif;
+  --serif:   Georgia, 'Times New Roman', serif;
+}
+
+/* ── Reset básico ─────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--sans);
+  background: var(--fondo);
+  color: var(--texto);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}

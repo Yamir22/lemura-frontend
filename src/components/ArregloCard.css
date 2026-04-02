@@ -1,0 +1,46 @@
+.arreglo-card {
+    background: var(--blanco);
+    border: 1.5px solid var(--acento);
+    border-radius: var(--radio);
+    padding: 28px 22px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    box-shadow: var(--sombra);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.arreglo-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 28px rgba(123, 110, 166, 0.25);
+}
+
+.arreglo-card__icono {
+    font-size: 2.4rem;
+}
+
+.arreglo-card__nombre {
+    font-family: var(--serif);
+    font-size: 1.2rem;
+    color: var(--primario);
+    text-align: center;
+}
+
+.arreglo-card__descripcion {
+    font-size: 0.9rem;
+    color: var(--texto);
+    text-align: center;
+    line-height: 1.5;
+    opacity: 0.85;
+}
+
+.arreglo-card__precio {
+    margin-top: 6px;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primario);
+    background: rgba(184, 169, 212, 0.2);
+    padding: 4px 16px;
+    border-radius: 20px;
+}

@@ -1,0 +1,214 @@
+/* ── Hero ─────────────────────────────────────── */
+.arma__hero {
+    text-align: center;
+    padding: 48px 24px 32px;
+}
+
+.arma__titulo {
+    font-family: var(--serif);
+    font-size: 2rem;
+    color: var(--primario);
+    margin-bottom: 8px;
+}
+
+.arma__subtitulo {
+    font-size: 0.95rem;
+    color: var(--texto);
+    opacity: 0.7;
+    font-style: italic;
+}
+
+/* ── Estados (carga / error) ─────────────────── */
+.arma__estado {
+    text-align: center;
+    padding: 32px;
+    color: var(--texto);
+    opacity: 0.6;
+    font-size: 0.95rem;
+}
+
+.arma__estado--error {
+    color: #b05252;
+    opacity: 1;
+}
+
+/* ── Layout dos columnas ─────────────────────── */
+.arma__layout {
+    display: flex;
+    gap: 32px;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 24px 64px;
+    align-items: flex-start;
+}
+
+/* ── Lista de flores (columna izquierda) ─────── */
+.arma__lista {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.arma__seccion-titulo {
+    font-family: var(--serif);
+    font-size: 1.1rem;
+    color: var(--primario);
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--acento);
+}
+
+/* ── Tarjeta de cada flor ────────────────────── */
+.flor-item {
+    background: var(--blanco);
+    border-radius: var(--radio);
+    box-shadow: var(--sombra);
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    transition: transform 0.15s ease;
+}
+
+.flor-item:hover {
+    transform: translateY(-2px);
+}
+
+.flor-item__info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.flor-item__nombre {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--texto);
+}
+
+.flor-item__precio {
+    font-size: 0.8rem;
+    color: var(--primario);
+    opacity: 0.8;
+}
+
+/* ── Controles +/- ───────────────────────────── */
+.flor-item__controles {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.flor-item__btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid var(--acento);
+    background: transparent;
+    color: var(--primario);
+    font-size: 1.1rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flor-item__btn:hover:not(:disabled) {
+    background: var(--acento);
+    color: var(--blanco);
+}
+
+.flor-item__btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.flor-item__btn--add {
+    border-color: var(--primario);
+}
+
+.flor-item__btn--add:hover {
+    background: var(--primario);
+    color: var(--blanco);
+}
+
+.flor-item__cantidad {
+    font-weight: 700;
+    font-size: 1rem;
+    min-width: 20px;
+    text-align: center;
+    color: var(--texto);
+}
+
+/* ── Resumen / aside (columna derecha) ───────── */
+.arma__resumen {
+    width: 280px;
+    background: var(--blanco);
+    border-radius: var(--radio);
+    box-shadow: var(--sombra);
+    padding: 24px;
+    position: sticky;
+    top: 24px;
+}
+
+.arma__resumen-vacio {
+    font-size: 0.85rem;
+    color: var(--texto);
+    opacity: 0.55;
+    font-style: italic;
+    text-align: center;
+    padding: 16px 0;
+}
+
+/* ── Lista del resumen ───────────────────────── */
+.arma__resumen-lista {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.arma__resumen-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.88rem;
+    color: var(--texto);
+    border-bottom: 1px solid var(--fondo);
+    padding-bottom: 6px;
+}
+
+/* ── Total ───────────────────────────────────── */
+.arma__total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 12px;
+    border-top: 2px solid var(--acento);
+    margin-top: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--texto);
+}
+
+.arma__total-monto {
+    font-size: 1.2rem;
+    color: var(--primario);
+    font-family: var(--serif);
+}
+
+/* ── Responsive: móvil ───────────────────────── */
+@media (max-width: 640px) {
+    .arma__layout {
+        flex-direction: column;
+    }
+
+    .arma__resumen {
+        width: 100%;
+        position: static;
+    }
+}
