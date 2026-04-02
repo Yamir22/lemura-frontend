@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import "./Admin.css"
 
 // La URL base de nuestra API en el backend
-const API = "http://localhost:3000"
+const API = import.meta.env.VITE_API_URL
 
 function Admin() {
     // Controla qué pestaña está visible: "flores" o "arreglos"

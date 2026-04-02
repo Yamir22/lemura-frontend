@@ -1,7 +1,7 @@
 import { useState } from "react"
 import "./Contacto.css"
 
-const API = "http://localhost:3000"
+const API = import.meta.env.VITE_API_URL
 
 function Contacto() {
     // Todos los campos del formulario en un solo objeto de estado
