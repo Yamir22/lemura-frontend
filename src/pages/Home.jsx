@@ -55,6 +55,7 @@ function Home() {
                         nombre={arreglo.nombre}
                         descripcion={arreglo.descripcion}
                         precio={arreglo.precio}
+                        imageUrl={arreglo.imageUrl}
                     />
                 ))}
             </div>

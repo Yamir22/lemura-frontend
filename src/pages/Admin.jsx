@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import { supabase } from "../supabaseClient"
 import "./Admin.css"
 
 // La URL base de nuestra API en el backend
@@ -19,9 +20,13 @@ function Admin() {
 
     // ── Estado para la sección de Arreglos ────────────────────────────
     const [arreglos, setArreglos] = useState([])
-    const [arregloForm, setArregloForm] = useState({ nombre: "", descripcion: "", precio: "" })
+    const [arregloForm, setArregloForm] = useState({ nombre: "", descripcion: "", precio: "", imageUrl: "" })
     const [editandoArregloId, setEditandoArregloId] = useState(null)
     const [errorArreglo, setErrorArreglo] = useState("")
+    // Archivo de imagen seleccionado (objeto File del input)
+    const [imagenArchivo, setImagenArchivo] = useState(null)
+    // true mientras se sube la imagen a Supabase Storage
+    const [subiendoImagen, setSubiendoImagen] = useState(false)
 
     // useEffect: se ejecuta una sola vez al montar la página
     // Carga los datos iniciales de ambas secciones
@@ -100,6 +105,30 @@ function Admin() {
     const guardarArreglo = async (e) => {
         e.preventDefault()
         setErrorArreglo("")
+
+        // Si hay un archivo nuevo seleccionado, primero lo subimos a Supabase Storage
+        let imageUrl = arregloForm.imageUrl || null
+        if (imagenArchivo) {
+            setSubiendoImagen(true)
+            const extension = imagenArchivo.name.split(".").pop()
+            const nombreArchivo = `arreglo-${Date.now()}.${extension}`
+
+            const { error: uploadError } = await supabase.storage
+                .from("arreglos")
+                .upload(nombreArchivo, imagenArchivo, { upsert: true })
+
+            setSubiendoImagen(false)
+
+            if (uploadError) {
+                setErrorArreglo("Error al subir la imagen: " + uploadError.message)
+                return
+            }
+
+            // Obtenemos la URL pública permanente del archivo subido
+            const { data: urlData } = supabase.storage.from("arreglos").getPublicUrl(nombreArchivo)
+            imageUrl = urlData.publicUrl
+        }
+
         const method = editandoArregloId ? "PUT" : "POST"
         const url = editandoArregloId
             ? `${API}/arreglos/${editandoArregloId}`
@@ -111,7 +140,8 @@ function Admin() {
             body: JSON.stringify({
                 nombre: arregloForm.nombre,
                 descripcion: arregloForm.descripcion,
-                precio: Number(arregloForm.precio)
+                precio: Number(arregloForm.precio),
+                imageUrl
             })
         })
         const data = await resp.json()
@@ -121,7 +151,8 @@ function Admin() {
             return
         }
 
-        setArregloForm({ nombre: "", descripcion: "", precio: "" })
+        setArregloForm({ nombre: "", descripcion: "", precio: "", imageUrl: "" })
+        setImagenArchivo(null)
         setEditandoArregloId(null)
         cargarArreglos()
     }
@@ -130,8 +161,10 @@ function Admin() {
         setArregloForm({
             nombre: arreglo.nombre,
             descripcion: arreglo.descripcion,
-            precio: String(arreglo.precio)
+            precio: String(arreglo.precio),
+            imageUrl: arreglo.imageUrl || ""
         })
+        setImagenArchivo(null)
         setEditandoArregloId(arreglo.id)
         setErrorArreglo("")
         window.scrollTo({ top: 0, behavior: "smooth" })
@@ -144,7 +177,8 @@ function Admin() {
     }
 
     const cancelarEdicionArreglo = () => {
-        setArregloForm({ nombre: "", descripcion: "", precio: "" })
+        setArregloForm({ nombre: "", descripcion: "", precio: "", imageUrl: "" })
+        setImagenArchivo(null)
         setEditandoArregloId(null)
         setErrorArreglo("")
     }
@@ -276,12 +310,32 @@ function Admin() {
                                 step="0.01"
                             />
                         </div>
+                        <div className="admin__campo">
+                            <label htmlFor="arregloImagen">Imagen</label>
+                            {/* Si el arreglo ya tiene imagen, mostramos un preview */}
+                            {arregloForm.imageUrl && !imagenArchivo && (
+                                <img
+                                    src={arregloForm.imageUrl}
+                                    alt="Imagen actual"
+                                    className="admin__imagen-preview"
+                                />
+                            )}
+                            <input
+                                id="arregloImagen"
+                                type="file"
+                                accept="image/*"
+                                onChange={e => setImagenArchivo(e.target.files[0] || null)}
+                            />
+                            {imagenArchivo && (
+                                <span className="admin__imagen-nombre">📎 {imagenArchivo.name}</span>
+                            )}
+                        </div>
 
                         {errorArreglo && <p className="admin__error">{errorArreglo}</p>}
 
                         <div className="admin__botones">
-                            <button type="submit" className="btn btn--primario">
-                                {editandoArregloId ? "Guardar cambios" : "Agregar arreglo"}
+                            <button type="submit" className="btn btn--primario" disabled={subiendoImagen}>
+                                {subiendoImagen ? "Subiendo imagen..." : editandoArregloId ? "Guardar cambios" : "Agregar arreglo"}
                             </button>
                             {editandoArregloId && (
                                 <button type="button" className="btn btn--secundario" onClick={cancelarEdicionArreglo}>
@@ -298,6 +352,13 @@ function Admin() {
                         )}
                         {arreglos.map(arreglo => (
                             <li key={arreglo.id} className="admin__item">
+                                {arreglo.imageUrl && (
+                                    <img
+                                        src={arreglo.imageUrl}
+                                        alt={arreglo.nombre}
+                                        className="admin__item-imagen"
+                                    />
+                                )}
                                 <div className="admin__item-info">
                                     <span className="admin__item-nombre">{arreglo.nombre}</span>
                                     {arreglo.descripcion && (
